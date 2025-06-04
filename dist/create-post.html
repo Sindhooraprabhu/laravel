@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create New Post</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>Create New Post</h1>
+
+    <form id="postForm">
+      <label>Title:</label><br>
+      <input type="text" id="title" required><br><br>
+
+      <label>Body:</label><br>
+      <textarea id="body" required></textarea><br><br>
+
+      <label>Image URL:</label><br>
+      <input type="text" id="image" placeholder="images/post3.jpg" required><br><br>
+
+      <button type="submit" class="btn">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('postForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const title = document.getElementById('title').value;
+      const body = document.getElementById('body').value;
+      const image = document.getElementById('image').value;
+
+      const newPost = { title, body, image };
+      const posts = JSON.parse(localStorage.getItem('posts')) || [];
+      posts.push(newPost);
+      localStorage.setItem('posts', JSON.stringify(posts));
+
+      // Redirect back to index.html with a success message
+      window.location.href = 'index.html?success=1';
+    });
+  </script>
+
+</body>
+</html>

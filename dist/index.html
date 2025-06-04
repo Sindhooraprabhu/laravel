@@ -1,12 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>My App</title>
-    <script type="module" crossorigin src="./assets/index-DqeEUxaT.js"></script>
-  </head>
-  <body>
-    <h1>Hello Vite + JS!</h1>
-    <div id="app"></div>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <title>All Blog Posts</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>All Posts</h1>
+
+    <a href="create-post.html" class="btn">Create New Post</a>
+
+    <div id="success-message" class="alert success" style="display: none;">Post created successfully!</div>
+
+    <div class="row" id="posts-container">
+      <!-- Hardcoded Post 1 -->
+      <div class="post-card" id="post-1">
+        <img src="images/post1.jpg" alt="Post Image">
+        <div class="card-body">
+          <h3>My First Post</h3>
+          <p>This is the body of the first post. I am happy to share!</p>
+          <button onclick="removePost(1)" class="btn delete">Delete</button>
+        </div>
+      </div>
+
+      <!-- Hardcoded Post 2 -->
+      <div class="post-card" id="post-2">
+        <img src="images/post.jpeg" alt="Post Image">
+        <div class="card-body">
+          <h3>Nature Walk</h3>
+          <p>I took a peaceful walk in the forest and found some mushrooms 🍄.</p>
+          <button onclick="removePost(2)" class="btn delete">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function removePost(postId) {
+      const post = document.getElementById('post-' + postId);
+      if (post) {
+        post.remove();
+      }
+    }
+
+    // Show success message if redirected from create page
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('success') === '1') {
+      document.getElementById('success-message').style.display = 'block';
+    }
+
+    // Load dynamic posts from localStorage
+    const savedPosts = JSON.parse(localStorage.getItem('posts')) || [];
+    const container = document.getElementById('posts-container');
+    let count = 3;
+
+    savedPosts.forEach(post => {
+      const postDiv = document.createElement('div');
+      postDiv.className = 'post-card';
+      postDiv.id = 'post-' + count;
+
+      postDiv.innerHTML = `
+        <img src="${post.image}" alt="Post Image">
+        <div class="card-body">
+          <h3>${post.title}</h3>
+          <p>${post.body}</p>
+          <button onclick="removePost(${count})" class="btn delete">Delete</button>
+        </div>
+      `;
+      container.appendChild(postDiv);
+      count++;
+    });
+  </script>
+
+</body>
 </html>
+
+
